@@ -1,29 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
 
 import "./Application.scss";
 import DayList from 'components/DayList'
+import Appointment from 'components/Appointment/index';
 
-const days = [
-  {
-    id: 1,
-    name: "Monday",
-    spots: 2,
-  },
-  {
-    id: 2,
-    name: "Tuesday",
-    spots: 5,
-  },
-  {
-    id: 3,
-    name: "Wednesday",
-    spots: 0,
-  },
-];
 
 export default function Application(props) {
 
-  const [day, setDay] = useState("Monday");
+  const setDay = day => setState({ ...state, day });
+
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    appointments: {},
+    interviewers: {}
+  })
+
+  const dailyAppointments = [];
+
+  useEffect(() => {
+    Promise.all([
+      axios.get("/api/days"),
+      axios.get("/api/appointments"),
+      axios.get("/api/interviewers")
+    ]).then(([days, appointments, interviewers]) => {
+      setState(prev => ({
+        ...prev,
+        day: days.data,
+        appointments: appointments.data,
+        interviewers: interviewers.data
+      }))
+    })
+  }, [])
+
+  const appointmentList = dailyAppointments.map(appointment => {
+    return (
+      <Appointment 
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview}
+      />
+    )
+  });
 
   return (
     <main className="layout">
@@ -39,8 +59,8 @@ export default function Application(props) {
 
         <nav className="sidebar__menu">
           <DayList
-            days={days}
-            day={day}
+            days={state.days}
+            day={state.day}
             setDay={setDay}
           />
         </nav>
@@ -54,6 +74,8 @@ export default function Application(props) {
 
       <section className="schedule">
         {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
+        { appointmentList }
+        <Appointment key="last" time="5pm"/>
       </section>
 
     </main>
