@@ -10,7 +10,7 @@ export function getAppointmentsForDay(state, day) {
 
   const appointmentsArr = [];
 
-  // if items in array id matches appointment push into appointmentsArr
+  // if appointments in days array matches appointment id push into appointmentsArr
   for (let appointment of Object.values(state.appointments)) {
     if (appointments.includes(appointment.id)) {
       appointmentsArr.push(appointment);
