@@ -14,6 +14,7 @@ const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVING = "SAVING";
 const CONFIRM = "CONFIRM";
+const DELETE = "DELETE";
 
 export default function Appointment(props) {
 
@@ -32,13 +33,16 @@ export default function Appointment(props) {
 
     props.bookInterview(props.id, interview)
       .then(() => { transition(SHOW) });
-
-    // transition(SHOW);
-    
+  
   }
 
-  const cancel = () => {
-    // transition(CANCEL);
+  const deleteInterview = () => {
+
+    transition(DELETE);
+
+    props.cancelInterview(props.id)
+      .then(() => { transition(EMPTY) });
+
   }
 
   return (
@@ -49,6 +53,7 @@ export default function Appointment(props) {
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
+          onCancel={() => {transition(CONFIRM)}}
         />
       )}
 
@@ -63,7 +68,13 @@ export default function Appointment(props) {
 
       {mode === SAVING && <Status message="Saving" />}
 
-      {mode === CONFIRM && <Confirm onClick={() => back()} />}
+      {mode === CONFIRM && 
+        <Confirm 
+          onCancel={() => back()} 
+          onConfirm={deleteInterview} 
+          message="Are you sure you want to Delete?"/>}
+
+      {mode === DELETE && <Status message="Deleting" />}
 
     </article>
   )

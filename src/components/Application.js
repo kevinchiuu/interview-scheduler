@@ -63,7 +63,14 @@ export default function Application(props) {
     };
 
     setState({...state, appointments});
-  }
+
+    return axios.delete(`http://localhost:8001/api/appointments/${id}`, appointment)
+      .then(() => {
+        setState(prev => ({...prev, appointments}))
+      });
+
+  };
+
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
