@@ -8,6 +8,7 @@ import Empty from './Empty';
 import Form from './Form';
 import Status from './Status';
 import Confirm from './Confirm';
+import Error from './Error';
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
@@ -94,7 +95,13 @@ export default function Appointment(props) {
         />
       )}
 
+      {mode === ERROR_SAVE && (
+        <Error message="There was an error saving. Try again" onCancel={() => back()} />
+      )}
 
+      {mode === ERROR_DELETE && (
+        <Error message="There was an error deleting. Try again" onCancel={() => back()} />
+      )}
 
     </article>
   )
