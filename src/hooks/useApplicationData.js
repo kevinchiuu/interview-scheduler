@@ -12,6 +12,44 @@ export function useApplicationData() {
 
   const setDay = day => setState({ ...state, day });
 
+  // const findDay = (days, dayToUpdate) => {
+  //   return days.reduce((acc, day, index) => {
+  //       acc.push(day)
+  //       acc.push(index)
+  //     }
+  //   }, [])
+  // }
+
+
+  // const updateSpots = (state, day) => {
+
+  //   //which day to update spots for
+  //   const dayToUpdate = day || state.day;
+
+  //   const dayObj = state.days.find(day => day.name === dayToUpdate)
+
+  //   console.log("day obj ->", dayObj)
+
+  //   // const [dayObj, dayObjIndex] = findDay(state.days, dayToUpdate)
+
+  //   const dayObjIndex = state.days.findIndex(day => day.name === dayToUpdate)
+
+  //   const listofApptIDs = dayObj.appointments;
+  //   const spots = listofApptIDs.filter(apptID => !state.appointments[apptID].interview).length;
+
+  //   const newDay = {...dayToUpdate, spots}
+    
+  //   const newDays = [...state.days];
+
+  //   newDays[dayObjIndex] = newDay;
+
+  //   return newDays
+  // };
+
+  // const updateSpots = (id, state) => {
+    
+  // }
+
   useEffect(() => {
     Promise.all([
       axios.get("http://localhost:8001/api/days"),
@@ -38,11 +76,32 @@ export function useApplicationData() {
       [id]: appointment
     };
 
-    setState({...state, appointments});
+    const getSpotsForDay = (day) => {
+      return day.appointments.length - 
+       day.appointments.reduce(
+         (count, id) => (appointments[id].interview ? count + 1 : count),0
+       )
+     }
+
+    let newDays = state.days.map((day)=>{
+      return day.appointments.includes(id) ?
+       {
+         ...day,
+         spots: getSpotsForDay(day)
+       }
+       : day
+    })
+  
 
     return axios.put(`http://localhost:8001/api/appointments/${id}`, appointment)
       .then(() => {
-        setState(prev => ({...prev, appointments }))
+        setState((prev) => ({...prev, appointments, days: newDays}));
+        // setState((prev) => {
+        //   const newState = {...prev, appointments,  days}
+        //   const newState1 = updateSpots(newState, state.day)
+
+        //   return newState1
+        // })
       });
 
   };
@@ -58,11 +117,33 @@ export function useApplicationData() {
       [id]: appointment
     };
 
-    setState({...state, appointments});
+    // setState({...state, appointments});
+
+    const getSpotsForDay = (day) => {
+      return day.appointments.length - 
+       day.appointments.reduce(
+         (count, id) => (appointments[id].interview ? count + 1 : count),0
+       )
+     }
+
+    let newDays = state.days.map((day)=>{
+      return day.appointments.includes(id) ?
+       {
+         ...day,
+         spots: getSpotsForDay(day)
+       }
+       : day
+    })
 
     return axios.delete(`http://localhost:8001/api/appointments/${id}`, appointment)
       .then(() => {
-        setState(prev => ({...prev, appointments}))
+        setState((prev) => ({...prev, appointments, days: newDays}));
+        // setState((prev) => {
+        //   const newState = {...prev, appointments}
+        //   const newState1 = updateSpots(newState, day)
+
+        //   return newState1
+        // })
       });
 
   };
