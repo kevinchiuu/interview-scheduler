@@ -5,7 +5,7 @@ export default function DayList(props) {
 
   let dayList = props.days.map(day => {
     return(
-      <ul>
+      <ul data-testid="day">
         <DayListItem
           key={day.id}
           name={day.name}
