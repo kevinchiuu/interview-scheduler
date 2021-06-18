@@ -5,7 +5,7 @@ This is an Interview Scheduler App that allows users to schedule student intervi
 
 !["screenshot1"](https://github.com/kevinchiuu/interview-scheduler/blob/master/public/images/ss1.png)
 !["screenshot2"](https://github.com/kevinchiuu/interview-scheduler/blob/master/public/images/ss2.png)
-!["screenshot3"](https://github.com/kevinchiuu/interview-scheduler/blob/master/public/images/ss3.png)
+!["screenshot3"](https://github.com/kevinchiuu/interview-scheduler/blob/master/public/images/ss4.png)
 ## Setup
 
 Install dependencies with `npm install`.
