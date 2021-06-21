@@ -79,17 +79,12 @@ export function useApplicationData() {
     const getSpotsForDay = (day) => {
       return day.appointments.length - 
        day.appointments.reduce(
-         (count, id) => (appointments[id].interview ? count + 1 : count),0
+         (count, id) => (appointments[id].interview ? count + 1 : count), 0
        )
      }
 
     let newDays = state.days.map((day)=>{
-      return day.appointments.includes(id) ?
-       {
-         ...day,
-         spots: getSpotsForDay(day)
-       }
-       : day
+      return day.appointments.includes(id) ? { ...day, spots: getSpotsForDay(day) } : day
     })
   
 
@@ -122,17 +117,12 @@ export function useApplicationData() {
     const getSpotsForDay = (day) => {
       return day.appointments.length - 
        day.appointments.reduce(
-         (count, id) => (appointments[id].interview ? count + 1 : count),0
+         (count, id) => (appointments[id].interview ? count + 1 : count), 0
        )
      }
 
     let newDays = state.days.map((day)=>{
-      return day.appointments.includes(id) ?
-       {
-         ...day,
-         spots: getSpotsForDay(day)
-       }
-       : day
+      return day.appointments.includes(id) ? {...day, spots: getSpotsForDay(day) } : day
     })
 
     return axios.delete(`http://localhost:8001/api/appointments/${id}`, appointment)
