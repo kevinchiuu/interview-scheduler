@@ -59,8 +59,8 @@ export default function Appointment(props) {
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
-          onCancel={() => {transition(CONFIRM)}}
-          onEdit={() => {transition(EDIT)}}
+          onCancel={() => transition(CONFIRM)}
+          onEdit={() => transition(EDIT)}
         />
       )}
 
