@@ -14,9 +14,9 @@ export function useApplicationData() {
 
   useEffect(() => {
     Promise.all([
-      axios.get("http://localhost:8001/api/days"),
-      axios.get("http://localhost:8001/api/appointments"),
-      axios.get("http://localhost:8001/api/interviewers")
+      axios.get("/api/days"),
+      axios.get("/api/appointments"),
+      axios.get("/api/interviewers")
     ]).then((response) => {
       setState(prev => ({
         ...prev,
@@ -50,7 +50,7 @@ export function useApplicationData() {
     })
   
 
-    return axios.put(`http://localhost:8001/api/appointments/${id}`, appointment)
+    return axios.put(`/api/appointments/${id}`, appointment)
       .then(() => {
         setState((prev) => ({...prev, appointments, days: newDays}));
       });
@@ -81,7 +81,7 @@ export function useApplicationData() {
       return day.appointments.includes(id) ? {...day, spots: getSpotsForDay(day) } : day
     })
 
-    return axios.delete(`http://localhost:8001/api/appointments/${id}`, appointment)
+    return axios.delete(`/api/appointments/${id}`, appointment)
       .then(() => {
         setState((prev) => ({...prev, appointments, days: newDays}));
       });
