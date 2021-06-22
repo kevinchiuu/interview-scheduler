@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+//custom hook allows you to keep track of visual mode and user history 
 export default function useVisualMode(initial) {
 
   const [mode, setMode] = useState(initial);
@@ -13,12 +14,14 @@ export default function useVisualMode(initial) {
 
     setMode(() => newMode);
   }
-
+  
   const back = () => {
+    let tempHistory = [...history]
 
     if (history[history.length - 1] !== initial) {
-      history.pop()
-      setMode(() => history[history.length - 1])
+      tempHistory.pop()
+      setMode(() => tempHistory[tempHistory.length - 1])
+      setHistory(tempHistory)
     }
 
   }
